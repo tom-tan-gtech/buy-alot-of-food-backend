@@ -1,0 +1,18 @@
+name: publish
+on: [push]
+jobs:
+  publish buy-alot-of-food-backend docker image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build buy-alot-of-food-backend docker image
+        run: |
+              docker build . --tag ghcr.io/tom-tan-gtech/buy-alot-of-food-backend:latest
+              docker run ghcr.io/tom-tan-gtech/buy-alot-of-food-backend:latest
+              docker push ghcr.io/tom-tan-gtech/buy-alot-of-food-backend:latest
